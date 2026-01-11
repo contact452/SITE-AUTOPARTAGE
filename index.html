@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pack Investisseur Autopartage | Calculateur ROI + Étude Ville</title>
+    <meta name="description" content="Prenez une décision d'investissement éclairée en autopartage. Calculateur ROI (crédit/comptant/apport) + 1 étude de marché ville au choix (11 villes) + mode d'emploi.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        // Configuration liens de paiement
+        const PAYMENT_LINKS = {
+            packInvestisseur: 'https://example.com/paiement-pack',
+            calculateur: 'https://example.com/paiement-calculateur',
+        };
+        
+        const CONTACT_EMAIL = 'contact@rbmlocation.fr';
+    </script>
+    
+    <style>
+        :root {
+            --primary: #0F3460;
+            --primary-light: #16537E;
+            --accent: #E94560;
+            --accent-light: #F47692;
+            --gold: #D4AF37;
+            --gold-light: #F5E6C8;
+            --success: #10B981;
+            --bg-dark: #0A1929;
+            --bg-light: #F8FAFB;
+            --text-dark: #1A1A2E;
+            --text-light: #64748B;
+            --white: #FFFFFF;
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'DM Sans', sans-serif;
+            --section-padding: 6rem 0;
+            --container-max: 1200px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background: var(--bg-light);
+        }
+        
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* ========== HEADER ========== */
+        .header {
+            background: var(--primary);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+        
+        .header-nav {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .header-nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .header-nav a:hover {
+            opacity: 0.8;
+        }
+        
+        /* ========== HERO SECTION ========== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            padding: 6rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.03)"/></svg>');
+            background-size: 100px;
+            opacity: 0.5;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .hero-left h1 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            font-weight: 900;
+        }
+        
+        @media (max-width: 600px) {
+            .hero-left h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            line-height: 1.7;
+        }
+        
+        .hero-bullets {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .hero-bullets li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .bullet-icon {
+            color: var(--gold);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            font-family: var(--font-body);
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(233, 69, 96, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-light);
+            transform: translateY(-2px);
+        }
+        
+        .hero-warning {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+        
+        .hero-right {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+        
+        .hero-stat {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .hero-stat:last-child {
+            border-bottom: none;
+        }
+        
+        .hero-stat strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .hero-stat span {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .hero-risk {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: rgba(239, 68, 68, 0.15);
+            border-left: 4px solid var(--accent);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* ========== SECTIONS ========== */
+        .section {
+            padding: var(--section-padding);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+        
+        /* ========== GRID 3 ========== */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 968px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        /* ========== CITIES BOX ========== */
+        .cities-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe5cc 100%);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .cities-box strong {
+            color: var(--primary);
+        }
+        
+        /* ========== OFFER SECTION ========== */
+        .offer-grid {
+            display: grid;
+            grid-template-columns: 1.3fr 0.7fr;
+            gap: 2rem;
+            margin-top: 3rem;
+            align-items: start;
+        }
+        
+        @media (max-width: 968px) {
+            .offer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .offer-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .offer-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .offer-card > p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+        }
+        
+        .offer-card ul {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .offer-card li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            border-bottom: 1px solid var(--bg-light);
+        }
+        
+        .offer-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .list-icon {
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        
+        .offer-note {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+        
+        .offer-note strong {
+            color: var(--primary);
+        }
+        
+        .pricing-card {
+            background: linear-gradient(180deg, #fafbfc 0%, #ffffff 100%);
+        }
+        
+        .popular-badge {
+            display: inline-block;
+            background: var(--gold-light);
+            color: var(--primary);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .pricing-amount {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .pricing-amount span {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: var(--text-light);
+        }
+        
+        .pricing-meta {
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+        
+        .pricing-cta {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .pricing-note {
+            padding: 1.25rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 1.5rem;
+        }
+        
+        /* ========== STEPS ========== */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 968px) {
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .step-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .step-card p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        /* ========== WHO SECTION ========== */
+        .who-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 968px) {
+            .who-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .who-card {
+            padding: 2rem;
+            border-radius: 12px;
+            border: 2px solid;
+        }
+        
+        .who-card.yes {
+            background: #f0fdf4;
+            border-color: var(--success);
+        }
+        
+        .who-card.no {
+            background: #fef2f2;
+            border-color: #ef4444;
+        }
+        
+        .who-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .who-card.yes .who-title {
+            color: var(--success);
+        }
+        
+        .who-card.no .who-title {
+            color: #ef4444;
+        }
+        
+        .who-list {
+            list-style: none;
+        }
+        
+        .who-list li {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+        
+        .who-icon {
+            flex-shrink: 0;
+            font-weight: 700;
+        }
+        
+        /* ========== FAQ ========== */
+        .faq-grid {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+        
+        .faq-item {
+            background: var(--white);
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--font-body);
+        }
+        
+        .faq-question:hover {
+            background: var(--bg-light);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+        
+        .faq-answer p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+        
+        /* ========== AUTHORITY ========== */
+        .authority-box {
+            max-width: 800px;
+            margin: 2rem auto 0;
+            padding: 2rem;
+            background: var(--bg-light);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .authority-box p {
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        /* ========== FOOTER ========== */
+        .footer {
+            background: var(--bg-dark);
+            color: var(--white);
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .footer-content p {
+            margin: 0;
+            opacity: 0.8;
+        }
+        
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            opacity: 0.6;
+            font-size: 0.9rem;
+        }
+        
+        /* ========== STICKY CTA ========== */
+        .sticky-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid #e2e8f0;
+            padding: 1rem;
+            z-index: 999;
+            display: none;
+            box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
+        }
+        
+        .sticky-cta.visible {
+            display: block;
+        }
+        
+        .sticky-content {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .sticky-text {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        @media (max-width: 860px) {
+            .sticky-cta {
+                display: block;
+            }
+        }
+        
+        /* ========== PREVIEW SECTION ========== */
+        .preview-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .preview-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .preview-feature {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .preview-feature:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        .preview-feature h3 {
+            color: var(--white);
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            font-weight: 700;
+        }
+        
+        .preview-feature p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .preview-screenshots {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .screenshot-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .screenshot-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+        
+        .screenshot-label {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        .label-icon {
+            font-size: 1.5rem;
+        }
+        
+        .preview-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .screenshot-overlay {
+            padding: 1.5rem;
+            text-align: center;
+            background: linear-gradient(to bottom, transparent, rgba(15, 52, 96, 0.9));
+            margin-top: -4rem;
+            position: relative;
+        }
+        
+        .screenshot-overlay p {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+        
+        .free-download-cta {
+            margin: 4rem 0 2rem;
+        }
+        
+        .free-download-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: 3px solid var(--gold);
+        }
+        
+        .free-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .free-download-card h3 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .free-download-card > p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .free-benefits {
+            list-style: none;
+            margin: 2rem 0;
+            display: inline-block;
+            text-align: left;
+        }
+        
+        .free-benefits li {
+            padding: 0.5rem 0;
+            font-size: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .btn-free {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            margin-top: 1rem;
+        }
+        
+        .btn-free:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+            background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+        }
+        
+        .free-note {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        
+        .btn-large {
+            font-size: 1.2rem;
+            padding: 1.25rem 3rem;
+        }
+        
+        @media (max-width: 968px) {
+            .preview-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .preview-screenshots {
+                grid-template-columns: 1fr;
+            }
+            
+            .free-download-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .free-download-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 600px) {
+            .container {
+                padding: 0 1rem;
+            }
+            .hero {
+                padding: 4rem 0 3rem;
+            }
+            .section {
+                padding: 4rem 0;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .hero-ctas {
+                flex-direction: column;
+            }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            .header-nav {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">RBM Location</a>
+                <nav class="header-nav">
+                    <a href="#contenu">Contenu</a>
+                    <a href="#offre">Offre</a>
+                    <a href="#fonctionnement">Fonctionnement</a>
+                    <a href="#faq">FAQ</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-left">
+                    <h1>Prenez une décision d'investissement éclairée en autopartage</h1>
+                    <p class="hero-subtitle">
+                        Avant d'engager <b>15 000 € à 100 000 €</b>, simulez votre rentabilité réelle.
+                        Un <b>calculateur ROI professionnel</b> + <b>1 analyse locale par ville</b> pour décider avec des chiffres, pas des suppositions.
+                    </p>
+
+                    <ul class="hero-bullets">
+                        <li>
+                            <span class="bullet-icon">✓</span>
+                            <div><b>Financement</b> : crédit / comptant / apport (sélection en un clic)</div>
+                        </li>
+                        <li>
+                            <span class="bullet-icon">✓</span>
+                            <div><b>Résultats</b> : cash-flow mensuel, ROI annuel, délai de retour, marge nette</div>
+                        </li>
+                        <li>
+                            <span class="bullet-icon">✓</span>
+                            <div><b>Ville</b> : 1 étude incluse (au choix parmi 11) — sélection après l'achat</div>
+                        </li>
+                    </ul>
+
+                    <div class="hero-ctas">
+                        <a href="#offre" class="btn btn-primary">👉 Accéder au Pack Investisseur</a>
+                        <a href="#contenu" class="btn btn-secondary">Voir ce que vous recevez</a>
+                    </div>
+
+                    <p class="hero-warning">
+                        ⚠️ Ce pack n'est pas une promesse de gains. C'est un <b>outil d'aide à la décision</b> basé sur vos hypothèses.
+                    </p>
+                </div>
+
+                <div class="hero-right">
+                    <div class="hero-stat">
+                        <strong>🧮 Calculateur ROI</strong>
+                        <span>Excel pro : crédit / comptant / apport • synthèse investisseur • comparatif véhicules</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>📍 1 étude ville incluse</strong>
+                        <span>Zones, saisonnalité, pricing, catégories rentables, conseils opérationnels</span>
+                    </div>
+                    <div class="hero-stat">
+                        <strong>📘 Mode d'emploi</strong>
+                        <span>Guide PDF + prise en main (pour exploiter les résultats correctement)</span>
+                    </div>
+                    <div class="hero-risk">
+                        ❌ Une seule erreur (ville / véhicule / financement) peut coûter plusieurs milliers d'euros. Ce pack sert à l'éviter avant achat.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTENU -->
+    <section class="section" id="contenu">
+        <div class="container">
+            <h2 class="section-title">Ce que vous achetez (exactement)</h2>
+            <p class="section-subtitle">
+                Une offre claire : <b>un cadre de décision réutilisable</b> + une analyse locale pour votre ville cible.
+            </p>
+
+            <div class="grid-3">
+                <div class="feature-card">
+                    <h3>🧮 Calculateur ROI Autopartage</h3>
+                    <p>Crédit / comptant / apport • cash-flow • ROI annuel • amortissement • marge nette • comparatif véhicules.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📍 1 étude de marché au choix</h3>
+                    <p>Données locales, zones prioritaires, saisonnalité, pricing, recommandations véhicules (Getaround / Turo).</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📘 Mode d'emploi investisseur</h3>
+                    <p>Guide simple et pro : quoi remplir, comment lire les résultats, erreurs à éviter, bonnes pratiques.</p>
+                </div>
+            </div>
+
+            <div class="cities-box">
+                <p>
+                    <strong>Villes disponibles (11)</strong> : Nice · Paris · Lyon · Marseille · Toulouse · Bordeaux · Lille · Nantes · Montpellier · Strasbourg · Rennes
+                </p>
+                <p style="margin-top: 0.75rem;">
+                    <strong>Choix de la ville après l'achat</strong> (via email ou formulaire).
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- OFFRE -->
+    <section class="section" id="offre" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title">L'offre la plus simple (et la plus rentable)</h2>
+            <p class="section-subtitle">
+                Vous n'achetez pas "une ville". Vous achetez un <b>cadre de décision</b> + <b>1 ville incluse</b>.
+            </p>
+
+            <div class="offer-grid">
+                <div class="offer-card">
+                    <h3>🎁 Pack Investisseur Autopartage</h3>
+                    <p>
+                        Conçu pour valider un projet <b>avant achat</b> et éviter les erreurs coûteuses (véhicule, ville, financement, charges).
+                    </p>
+                    <ul>
+                        <li>
+                            <span class="list-icon">✓</span>
+                            <div><b>Calculateur ROI</b> (crédit/comptant/apport, ROI, cash-flow, amortissement)</div>
+                        </li>
+                        <li>
+                            <span class="list-icon">✓</span>
+                            <div><b>1 étude de marché ville</b> au choix parmi 11 (sélection après paiement)</div>
+                        </li>
+                        <li>
+                            <span class="list-icon">✓</span>
+                            <div><b>Mode d'emploi</b> + guide de lecture investisseur</div>
+                        </li>
+                    </ul>
+
+                    <div class="offer-note">
+                        💡 <b>Ville supplémentaire :</b> <b>39 € / ville</b> (proposée après achat). Idéal pour comparer 2–3 villes avant décision.
+                    </div>
+                </div>
+
+                <div class="offer-card pricing-card">
+                    <div class="popular-badge">⭐ Meilleur choix (offre unique)</div>
+                    
+                    <div class="pricing-amount">179 € <span>paiement unique</span></div>
+                    <p class="pricing-meta">Accès immédiat • 1 ville incluse • support email</p>
+
+                    <a href="javascript:void(0)" onclick="window.open(PAYMENT_LINKS.packInvestisseur, '_blank')" class="btn btn-primary pricing-cta">
+                        👉 Accéder au Pack Investisseur
+                    </a>
+
+                    <a href="javascript:void(0)" onclick="window.open(PAYMENT_LINKS.calculateur, '_blank')" class="btn btn-secondary pricing-cta">
+                        🧮 Calculateur seul (149 €)
+                    </a>
+
+                    <div class="pricing-note">
+                        🔒 <b>Garantie 14 jours</b> : si le pack ne correspond pas à vos attentes, vous pouvez demander un remboursement selon nos conditions.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- À QUOI ÇA RESSEMBLE -->
+    <section class="section preview-section" id="preview" style="background: linear-gradient(135deg, #0F3460 0%, #16537E 100%);">
+        <div class="container">
+            <h2 class="section-title" style="color: var(--white);">À quoi ça ressemble concrètement ?</h2>
+            <p class="section-subtitle" style="color: rgba(255,255,255,0.9);">
+                🖥️ Aperçu des outils inclus dans le Pack Investisseur
+            </p>
+
+            <!-- Features Grid -->
+            <div class="preview-features">
+                <div class="preview-feature">
+                    <span class="feature-icon">📊</span>
+                    <h3>Calculateur ROI</h3>
+                    <p>3 modes de financement (crédit / comptant / apport) • Calcul automatique rentabilité • Mensualités et coût total</p>
+                </div>
+                <div class="preview-feature">
+                    <span class="feature-icon">🔁</span>
+                    <h3>Comparaison de véhicules</h3>
+                    <p>Compare jusqu'à 3 véhicules différents • Identifie le plus rentable • ROI comparé en temps réel</p>
+                </div>
+                <div class="preview-feature">
+                    <span class="feature-icon">📍</span>
+                    <h3>Études par ville</h3>
+                    <p>11 villes disponibles • Zones stratégiques • Saisonnalité • Pricing local • Fiscalité détaillée</p>
+                </div>
+            </div>
+
+            <!-- Screenshots -->
+            <div class="preview-screenshots">
+                <div class="screenshot-card">
+                    <div class="screenshot-label">
+                        <span class="label-icon">📊</span>
+                        <span>Calculateur ROI - Aperçu</span>
+                    </div>
+                    <img src="screenshot_calculateur_roi_flou.png" alt="Aperçu Calculateur ROI" class="preview-img">
+                    <div class="screenshot-overlay">
+                        <p>🔓 Débloquez l'accès complet</p>
+                    </div>
+                </div>
+                
+                <div class="screenshot-card">
+                    <div class="screenshot-label">
+                        <span class="label-icon">🔁</span>
+                        <span>Comparateur Véhicules - Aperçu</span>
+                    </div>
+                    <img src="screenshot_comparateur_vehicules_flou.png" alt="Aperçu Comparateur" class="preview-img">
+                    <div class="screenshot-overlay">
+                        <p>🔓 Débloquez l'accès complet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Téléchargement Gratuit -->
+            <div class="free-download-cta">
+                <div class="free-download-card">
+                    <div class="free-icon">🎁</div>
+                    <h3>Télécharge un extrait GRATUIT</h3>
+                    <p>Découvre un extrait d'1 page du rapport d'une ville (Paris, Lyon, Toulouse...)</p>
+                    <ul class="free-benefits">
+                        <li>✅ Chiffres clés du marché</li>
+                        <li>✅ Analyse rentabilité citadines</li>
+                        <li>✅ ROI estimé</li>
+                    </ul>
+                    <a href="#" class="btn btn-free" onclick="alert('Lien vers formulaire de téléchargement gratuit à configurer');">
+                        📄 Télécharger un extrait gratuit
+                    </a>
+                    <p class="free-note">Aucune carte bancaire requise • Téléchargement immédiat</p>
+                </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="javascript:void(0)" onclick="window.open(PAYMENT_LINKS.packInvestisseur, '_blank')" class="btn btn-primary btn-large">
+                    👉 Accéder au Pack Complet (179€)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FONCTIONNEMENT -->
+    <section class="section" id="fonctionnement">
+        <div class="container">
+            <h2 class="section-title">Comment les investisseurs l'utilisent</h2>
+            <p class="section-subtitle">Simple, rapide, orienté décision.</p>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3>Simulation</h3>
+                    <p>Testez plusieurs véhicules et modes de financement (crédit/comptant/apport) pour identifier les scénarios rentables.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3>Comparaison</h3>
+                    <p>Comparez vos hypothèses avec les données locales de la ville pour choisir le bon mix véhicule + zone + saison.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3>Décision</h3>
+                    <p>Investissez avec une vision claire du cash-flow, du ROI, du délai de retour et du risque réel.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RISQUES ÉVITÉS -->
+    <section class="section" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title" style="color: #ef4444;">Sans ces outils, vous risquez de...</h2>
+            <p class="section-subtitle">
+                Ces erreurs coûtent entre <b>5 000€ et 20 000€</b> en moyenne. Ne les faites pas.
+            </p>
+
+            <div style="max-width: 900px; margin: 3rem auto 0;">
+                <!-- Erreur 1 -->
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="font-size: 2rem; color: #ef4444; flex-shrink: 0;">❌</div>
+                        <div>
+                            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary); margin: 0 0 0.75rem;">
+                                Acheter un véhicule non rentable
+                            </h3>
+                            <p style="color: var(--text-light); margin: 0; line-height: 1.7;">
+                                Exemple : Une Tesla Model 3 à Paris peut perdre 500€/mois à cause des charges d'entretien et du prix d'achat trop élevé. 
+                                <span style="color: #ef4444; font-weight: 700;">Perte : -6 000€/an</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Erreur 2 -->
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="font-size: 2rem; color: #ef4444; flex-shrink: 0;">❌</div>
+                        <div>
+                            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary); margin: 0 0 0.75rem;">
+                                Sous-estimer les charges réelles
+                            </h3>
+                            <p style="color: var(--text-light); margin: 0; line-height: 1.7;">
+                                Parking (100-250€), entretien (150€/mois), assurance (80€)... Ces charges grignottent 30-40% de votre revenu brut. 
+                                <span style="color: #ef4444; font-weight: 700;">Erreur fréquente : -400€/mois</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Erreur 3 -->
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="font-size: 2rem; color: #ef4444; flex-shrink: 0;">❌</div>
+                        <div>
+                            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary); margin: 0 0 0.75rem;">
+                                Mal choisir votre statut fiscal
+                            </h3>
+                            <p style="color: var(--text-light); margin: 0; line-height: 1.7;">
+                                Micro-BIC vs SASU : la différence peut représenter 2 000-4 000€/an selon votre situation. Certains paient trop d'impôts, d'autres ne récupèrent pas la TVA. 
+                                <span style="color: #ef4444; font-weight: 700;">Optimisation manquée : +2 500€/an</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Erreur 4 -->
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="font-size: 2rem; color: #ef4444; flex-shrink: 0;">❌</div>
+                        <div>
+                            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary); margin: 0 0 0.75rem;">
+                                Investir dans une ville sur-cotée
+                            </h3>
+                            <p style="color: var(--text-light); margin: 0; line-height: 1.7;">
+                                Toutes les villes ne se valent pas. Un parking à 250€/mois à Paris vs 80€ à Nantes change tout le ROI. 
+                                <span style="color: #ef4444; font-weight: 700;">Impact : -2 040€/an sur les charges seules</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Erreur 5 -->
+                <div style="background: #fef2f2; border-left: 4px solid #ef4444; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <div style="font-size: 2rem; color: #ef4444; flex-shrink: 0;">❌</div>
+                        <div>
+                            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--primary); margin: 0 0 0.75rem;">
+                                Immobiliser 10 000-30 000€ inutilement
+                            </h3>
+                            <p style="color: var(--text-light); margin: 0; line-height: 1.7;">
+                                Investir 20 000€ dans un projet non rentable, c'est 20 000€ qui ne travaillent pas ailleurs. Coût d'opportunité réel si le projet échoue. 
+                                <span style="color: #ef4444; font-weight: 700;">Risque : -20 000€ de capital</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Solution -->
+                <div style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border: 2px solid var(--success); border-radius: 12px; padding: 2rem; text-align: center; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);">
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--success); margin-bottom: 1rem;">
+                        ✅ Avec nos outils : Évitez ces 5 erreurs
+                    </div>
+                    <p style="font-size: 1.1rem; color: var(--text-dark); margin: 0;">
+                        Investissement : <b>179€</b> • Économies potentielles : <b>5 000-20 000€</b> • 
+                        ROI de l'achat : <b>×28 à ×112</b>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- POUR QUI / PAS POUR QUI -->
+    <section class="section" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title">Pour qui ? (et pour qui ce n'est pas)</h2>
+            <p class="section-subtitle">
+                ⚠️ Ce pack n'est pas une promesse de gains. C'est un <b>outil d'aide à la décision</b> pour investisseurs.
+            </p>
+
+            <div class="who-grid">
+                <div class="who-card yes">
+                    <div class="who-title">✅ Fait pour vous si…</div>
+                    <ul class="who-list">
+                        <li>
+                            <span class="who-icon">✓</span>
+                            <span>Vous envisagez d'investir entre <b>15 000 € et 100 000 €</b></span>
+                        </li>
+                        <li>
+                            <span class="who-icon">✓</span>
+                            <span>Vous voulez un modèle clair : <b>cash-flow, ROI, amortissement</b></span>
+                        </li>
+                        <li>
+                            <span class="who-icon">✓</span>
+                            <span>Vous comparez plusieurs véhicules / villes avant d'acheter</span>
+                        </li>
+                        <li>
+                            <span class="who-icon">✓</span>
+                            <span>Vous cherchez une approche rationnelle (pas "revenu passif")</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="who-card no">
+                    <div class="who-title">❌ Pas idéal si…</div>
+                    <ul class="who-list">
+                        <li>
+                            <span class="who-icon">✗</span>
+                            <span>Vous cherchez une promesse de gains ou une "méthode miracle"</span>
+                        </li>
+                        <li>
+                            <span class="who-icon">✗</span>
+                            <span>Vous ne souhaitez pas renseigner vos hypothèses (prix, occupation, charges)</span>
+                        </li>
+                        <li>
+                            <span class="who-icon">✗</span>
+                            <span>Vous voulez "tester" sans analyser avant d'investir</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+        <div class="container">
+            <h2 class="section-title">FAQ</h2>
+            <p class="section-subtitle">Les questions les plus fréquentes avant achat.</p>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Puis-je choisir ma ville après l'achat ?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Oui. Après votre paiement, vous choisissez la ville (par email ou formulaire). Vous recevez l'étude correspondante.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Le calculateur fonctionne-t-il pour Getaround et Turo ?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Oui. Le calculateur est conçu pour simuler vos revenus et charges sur Getaround et/ou Turo selon vos hypothèses.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Crédit, comptant, apport : c'est inclus ?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Oui. Le calculateur intègre les 3 scénarios via liste déroulante : comptant, crédit, crédit avec apport.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Puis-je analyser plusieurs villes ?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Oui. Vous pouvez ajouter des études supplémentaires après achat (39 € / ville).</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        <span>Est-ce adapté si je débute ?</span>
+                        <span class="faq-icon">▼</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Oui : cellules à remplir en bleu, listes déroulantes, mode d'emploi. Objectif : vous guider vers une décision claire.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AUTORITÉ -->
+    <section class="section" style="background: var(--white);">
+        <div class="container">
+            <h2 class="section-title">Pourquoi ce pack est différent</h2>
+            
+            <div class="authority-box">
+                <p>
+                    Ces outils sont nés de l'expérience réelle d'investissement en autopartage.
+                </p>
+                <p>
+                    En l'absence d'outils adaptés, RBM Location a connu les erreurs classiques : mauvais véhicule, coûts sous-estimés, décisions trop optimistes.
+                </p>
+                <p>
+                    Les outils proposés aujourd'hui sont le fruit de cet apprentissage terrain, avec une approche investisseur : hypothèses prudentes, cash-flow réel et décisions basées sur des chiffres.
+                </p>
+                <p>
+                    <strong>L'objectif :</strong> sécuriser des investissements à plusieurs dizaines de milliers d'euros.
+                </p>
+            </div>
+            
+            <div class="authority-box" style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+                <p>
+                    Avertissement : ce pack constitue une analyse informative et une aide à la décision. Il ne constitue pas un conseil en investissement personnalisé ni un conseil fiscal.
+                    Les performances passées ne garantissent pas les performances futures. Consultation expert-comptable recommandée.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; margin-bottom: 3rem;">
+                
+                <!-- Colonne 1: À propos -->
+                <div>
+                    <h3 style="color: var(--white); font-size: 1.5rem; margin-bottom: 1rem; font-weight: 700;">
+                        RBM Location
+                    </h3>
+                    <p style="opacity: 0.8; line-height: 1.7; margin-bottom: 1.5rem;">
+                        Outils professionnels pour investisseurs autopartage.
+                    </p>
+                    <a href="/cdn-cgi/l/email-protection#086b67667c696b7c487a6a6564676b697c616766266e7a" style="color: var(--accent-light); text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📧</span> <span class="__cf_email__" data-cfemail="c0a3afaeb4a1a3b480b2a2adacafa3a1b4a9afaeeea6b2">[email&#160;protected]</span>
+                    </a>
+                </div>
+
+                <!-- Colonne 2: Produits -->
+                <div>
+                    <h3 style="color: var(--white); font-size: 1.2rem; margin-bottom: 1rem; font-weight: 700;">
+                        Produits
+                    </h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 0.75rem;">
+                            <a href="#offre" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s;">
+                                Pack Investisseur 179€
+                            </a>
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <a href="#offre" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s;">
+                                Calculateur seul 149€
+                            </a>
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <span style="color: rgba(255,255,255,0.8);">
+                                Ville supplémentaire 39€
+                            </span>
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <a href="#contenu" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s;">
+                                Fonctionnalités
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Colonne 3: Informations -->
+                <div>
+                    <h3 style="color: var(--white); font-size: 1.2rem; margin-bottom: 1rem; font-weight: 700;">
+                        Informations
+                    </h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 0.75rem;">
+                            <a href="#faq" style="color: rgba(255,255,255,0.8); text-decoration: none; transition: color 0.2s;">
+                                FAQ
+                            </a>
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <a href="/cdn-cgi/l/email-protection#6e0d01001a0f0d1a2e1c0c0302010d0f1a07010040081c" style="color: var(--accent-light); text-decoration: none; font-weight: 600;">
+                                <span class="__cf_email__" data-cfemail="c3a0acadb7a2a0b783b1a1aeafaca0a2b7aaacadeda5b1">[email&#160;protected]</span>
+                            </a>
+                        </li>
+                        <li style="margin-bottom: 0.75rem;">
+                            <span style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">
+                                CGV disponibles sur demande
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Responsive: colonnes empilées sur mobile -->
+            <style>
+                @media (max-width: 768px) {
+                    .footer > .container > div:first-child {
+                        grid-template-columns: 1fr !important;
+                        gap: 2rem !important;
+                    }
+                }
+            </style>
+
+            <div style="padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; opacity: 0.7; font-size: 0.9rem;">
+                © <span id="year"></span> RBM Location. Tous droits réservés. | Données mises à jour 2025
+            </div>
+        </div>
+    </footer>
+
+    <!-- STICKY CTA -->
+    <div class="sticky-cta" id="stickyCta">
+        <div class="container">
+            <div class="sticky-content">
+                <span class="sticky-text">Pack Investisseur (179 €) • 1 ville incluse • accès immédiat</span>
+                <a href="javascript:void(0)" onclick="window.open(PAYMENT_LINKS.packInvestisseur, '_blank')" class="btn btn-primary">
+                    👉 Acheter
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Année dynamique
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // FAQ toggle
+        function toggleFaq(button) {
+            const item = button.parentElement;
+            const wasActive = item.classList.contains('active');
+            
+            // Fermer tous les autres
+            document.querySelectorAll('.faq-item').forEach(faq => {
+                faq.classList.remove('active');
+            });
+            
+            // Toggle celui-ci
+            if (!wasActive) {
+                item.classList.add('active');
+            }
+        }
+        
+        // Sticky CTA au scroll
+        window.addEventListener('scroll', function() {
+            const sticky = document.getElementById('stickyCta');
+            if (window.scrollY > 800) {
+                sticky.classList.add('visible');
+            } else {
+                sticky.classList.remove('visible');
+            }
+        });
+        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttrib
