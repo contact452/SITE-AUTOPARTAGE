@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Merci – Ville supplémentaire</title>
+  <meta name="robots" content="noindex, nofollow" />
+
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#0f1b33;
+      --text:#eaf0ff;
+      --muted:#a9b6d6;
+      --accent:#fbbf24;
+      --accent2:#22c55e;
+      --line:rgba(255,255,255,.12);
+      --btnText:#1f2937;
+    }
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      text-align:center;
+      padding:24px;
+    }
+    .box{
+      width:100%;
+      max-width:640px;
+      background: var(--card);
+      padding:32px;
+      border-radius:18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+    h1{
+      margin: 0 0 10px;
+      font-size: 1.8rem;
+      line-height: 1.25;
+    }
+    p{
+      margin: 12px 0;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .badge{
+      display:inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(251,191,36,.15);
+      color: var(--accent);
+      font-weight: 700;
+      font-size: .9rem;
+      margin-bottom: 14px;
+    }
+    hr{
+      border:0;
+      height:1px;
+      background: var(--line);
+      margin: 22px 0;
+    }
+    .btn{
+      display:block;
+      width:100%;
+      text-decoration:none;
+      font-weight: 800;
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-top: 12px;
+      transition: transform .08s ease, opacity .2s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); opacity:.95; }
+    .btn-primary{
+      background: var(--accent);
+      color: var(--btnText);
+    }
+    .btn-secondary{
+      background: rgba(34,197,94,.14);
+      color: var(--text);
+      border: 1px solid rgba(34,197,94,.35);
+      font-weight: 700;
+    }
+    .small{
+      font-size: .92rem;
+      opacity: .9;
+    }
+    .list{
+      text-align:left;
+      margin: 14px auto 0;
+      max-width: 520px;
+      color: var(--muted);
+    }
+    .list li{
+      margin: 8px 0;
+    }
+    .note{
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+      padding: 14px;
+      border-radius: 12px;
+      margin-top: 16px;
+      text-align:left;
+    }
+    .highlight{ color: var(--text); font-weight: 800; }
+    .contact{
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+    .contact strong{ color: var(--text); }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="badge">✅ Paiement confirmé</div>
+    <h1>Merci ! Votre ville supplémentaire est bien prise en compte 🙌</h1>
+
+    <p>
+      Vous venez d’ajouter une <span class="highlight">étude de marché</span> pour une ville supplémentaire.
+    </p>
+
+    <hr />
+
+    <p class="small">
+      📍 <b>Étape suivante :</b> indiquez simplement la ville souhaitée (parmi les 11) en répondant à l’email Stripe
+      ou en nous écrivant avec votre <b>email de paiement</b>.
+    </p>
+
+    <div class="note">
+      <p style="margin:0 0 10px; color: var(--text); font-weight:800;">Pour accélérer le traitement, copiez-collez ce format :</p>
+      <p style="margin:0; color: var(--muted);">
+        Ville supplémentaire : <b>[NOM DE LA VILLE]</b><br />
+        Email utilisé pour le paiement : <b>[VOTRE EMAIL]</b>
+      </p>
+    </div>
+
+    <p class="small" style="margin-top:14px;">
+      ⏱️ Envoi sous <b>24h ouvrées</b>.
+    </p>
+
+    <hr />
+
+    <a class="btn btn-secondary" href="/merci.html">
+      ⬅️ Revenir à la page de livraison (calculateur + mode d’emploi)
+    </a>
+
+    <p class="contact">
+      Besoin d’aide ? Contact : <strong>support@rbm-location.com</strong>
+    </p>
+
+    <p class="small" style="margin-top:10px; opacity:.75;">
+      (Cette page peut mettre quelques secondes à s’actualiser si votre navigateur a gardé une ancienne version.)
+    </p>
+  </div>
+</body>
+</html>
