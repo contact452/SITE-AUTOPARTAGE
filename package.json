@@ -2,5 +2,7 @@
   "name": "analyse-autopartage",
   "version": "1.0.0",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "stripe": "^20.2.0"
+  }
 }
