@@ -25,10 +25,10 @@ exports.handler = async (event) => {
 
   console.log("✅ Stripe event received:", stripeEvent.type);
 
-  if (stripeEvent.type === "checkout.session.completed") {
-    const session = stripeEvent.data.object;
+ if (stripeEvent.type === "checkout.session.completed") {
+  const session = stripeEvent.data.object;
 
-     const email =
+  const email =
     session.customer_details?.email ||
     session.customer_email ||
     session.customer?.email ||
@@ -36,38 +36,38 @@ exports.handler = async (event) => {
 
   if (!email) {
     console.error("❌ No customer email found in Checkout session");
-    return { statusCode: 200, body: "ok" }; // on ne bloque pas Stripe
+    return { statusCode: 200, body: "ok" };
   }
 
+  const token = jwt.sign(
+    { email, purpose: "downloads" },
+    process.env.DOWNLOAD_TOKEN_SECRET,
+    { expiresIn: "24h" }
+  );
 
-    const token = jwt.sign(
-      { email, purpose: "downloads" },
-      process.env.DOWNLOAD_TOKEN_SECRET,
-      { expiresIn: "24h" }
-    );
+  const downloadUrl =
+    `https://analyse-autopartage.netlify.app/.netlify/functions/download?token=` +
+    encodeURIComponent(token);
 
-    const downloadUrl =
-      `https://analyse-autopartage.netlify.app/.netlify/functions/download?token=` +
-      encodeURIComponent(token);
+  console.log("✅ Download token created:", downloadUrl);
 
-    console.log("✅ Download token created:", downloadUrl);
+  try {
+    const res = await fetch(process.env.MAKE_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify({
+        email,
+        downloadUrl,
+        eventType: stripeEvent.type,
+      }),
+    });
+
+    console.log("✅ Make notified:", res.status);
+  } catch (e) {
+    console.error("❌ Make call failed:", e.message);
   }
-// Envoi à Make pour email automatique
-try {
-  const res = await fetch(process.env.MAKE_WEBHOOK_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json; charset=utf-8" },
-    body: JSON.stringify({
-      email,
-      downloadUrl,
-      eventType: stripeEvent.type,
-    }),
-  });
-
-  console.log("✅ Make notified:", res.status);
-} catch (e) {
-  console.error("❌ Make call failed:", e.message);
 }
+
 
   return { statusCode: 200, body: "ok" };
 };
