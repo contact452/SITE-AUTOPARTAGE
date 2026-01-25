@@ -28,10 +28,17 @@ exports.handler = async (event) => {
   if (stripeEvent.type === "checkout.session.completed") {
     const session = stripeEvent.data.object;
 
-    const email =
-      session.customer_details?.email ||
-      session.customer_email ||
-      "unknown";
+     const email =
+    session.customer_details?.email ||
+    session.customer_email ||
+    session.customer?.email ||
+    null;
+
+  if (!email) {
+    console.error("❌ No customer email found in Checkout session");
+    return { statusCode: 200, body: "ok" }; // on ne bloque pas Stripe
+  }
+
 
     const token = jwt.sign(
       { email, purpose: "downloads" },
