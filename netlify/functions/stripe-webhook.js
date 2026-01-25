@@ -45,6 +45,22 @@ exports.handler = async (event) => {
 
     console.log("✅ Download token created:", downloadUrl);
   }
+// Envoi à Make pour email automatique
+try {
+  const res = await fetch(process.env.MAKE_WEBHOOK_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json; charset=utf-8" },
+    body: JSON.stringify({
+      email,
+      downloadUrl,
+      eventType: stripeEvent.type,
+    }),
+  });
+
+  console.log("✅ Make notified:", res.status);
+} catch (e) {
+  console.error("❌ Make call failed:", e.message);
+}
 
   return { statusCode: 200, body: "ok" };
 };
