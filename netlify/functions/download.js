@@ -39,6 +39,16 @@ exports.handler = async (event) => {
           <li><a href="${calculatorUrl}" target="_blank" rel="noopener">📊 Télécharger le calculateur</a></li>
           <li><a href="${guideUrl}" target="_blank" rel="noopener">📘 Télécharger le mode d’emploi</a></li>
         </ul>
+        <hr style="margin:20px 0; opacity:0.3">
+
+<p style="font-size:13px; color:#666; max-width:520px;">
+  <strong>ℹ️ Information importante</strong><br>
+  Si Google affiche une page de connexion avant le téléchargement,
+  connectez-vous simplement à un compte Google puis relancez le téléchargement.
+  <br>
+  <strong>Votre lien reste valable 24 heures.</strong>
+</p>
+
       </body>
     </html>
   `,
