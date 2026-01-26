@@ -32,8 +32,10 @@
     <p>
       Vous venez d’acquérir le <b>Pack Investisseur Autopartage</b>.
     </p>
-    <a href="https://drive.google.com/drive/folders/1CN3TqdrWpretlZFJBVDn_ayglxIuG2n8"
+    <a id="downloadBtn"
+   href="#"
    target="_blank"
+   rel="noopener"
    style="
      display:block;
      background:#22c55e;
@@ -43,7 +45,51 @@
      font-weight:700;
      text-decoration:none;
      margin:20px 0;
+     opacity:.7;
+     pointer-events:none;
    ">
+  ⏳ Préparation de votre lien sécurisé…
+</a>
+
+<p id="downloadHelp" style="display:none; color:#a9b6d6; font-size:0.95rem; margin-top:-10px;">
+  Si le bouton ne s’active pas, utilisez le lien reçu par email (valable 24h).
+</p>
+
+<script>
+  (async function () {
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get("session_id");
+    const btn = document.getElementById("downloadBtn");
+    const help = document.getElementById("downloadHelp");
+
+    if (!sessionId) {
+      btn.textContent = "📩 Vérifiez votre email pour télécharger";
+      btn.style.opacity = "1";
+      btn.style.pointerEvents = "auto";
+      btn.href = "mailto:";
+      help.style.display = "block";
+      return;
+    }
+
+    try {
+      const res = await fetch("/.netlify/functions/create-download-link?session_id=" + encodeURIComponent(sessionId));
+      if (!res.ok) throw new Error("bad response");
+      const data = await res.json();
+
+      btn.href = data.downloadUrl;
+      btn.textContent = "📥 Accéder à mes téléchargements (24h)";
+      btn.style.opacity = "1";
+      btn.style.pointerEvents = "auto";
+    } catch (e) {
+      btn.textContent = "📩 Vérifiez votre email pour télécharger";
+      btn.style.opacity = "1";
+      btn.style.pointerEvents = "auto";
+      btn.href = "mailto:";
+      help.style.display = "block";
+    }
+  })();
+</script>
+
 📊 Télécharger le calculateur + mode d’emploi
 </a>
 
